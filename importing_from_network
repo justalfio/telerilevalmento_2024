@@ -34,4 +34,30 @@ setwd("C:/Users/Utente/Downloads")
 hurricane-->rast("hurricane.jpeg")
 im.plotRGB(hurricane, 1, 2, 3)
 
+# copernicus, cosa è? 4 blocchi principali di dati, vegetazione(con indici spettrali), energia, water e criosphere. 
+# VEGETATION: prima variabile, leaf area index di una pianta, stimato da satellite anche se si fa a terra.
+# seconda variabile: frazione FCOVER, la copertura fotosintetica, rappresenta estensione orizzontale vegetazione;
+# terza: FAPAR quanittà di radiazione che partecipa alla fotosintesi, assorbita dunque da piante."Cosmologia da tasca, libro consigliato)
+# NDVI differenza fra infrarosso e rosso divisa la loro somma; condizione di salute che indica qual è il valore di NDVI in funzione di una serie temporale;
+# produttività VPI in a long term statistic, quanta biomassa viene prodotta;
+# DMP produttività secca, misurata la quantità di biomassa una votla seccata la pianta dall'acqua.
+# area incendiata burnt area;
+# soil water index, umidità suolo a vari livelli di profondità;
+# SSM surface soil moisture, limitata al primo strato di suolo
+
+#ENERGY: TOC Reflectance, riflettanza della parte superiore degli oggetti;
+# Surface albedo, considera gli oggetti anche se ci fossero buchi e altri elementi, quanità di radiazione riflessa;
+#LST land surface temperature, temperatura del suolo NON ARIA.
+WATER VARIABILI:
+# LAKE WATER QUALITY
+#WATER BODIES, misurare le aree coperte dall'acqua.
+# Water level, stima livello verticale e riflettanza dei disciolti;
+
+# CRIOSFERA: 
+# Estensione ghiaccio, lake ice extent: 
+# snow cover, quantità di estensione della neve in pianeta;
+# LAKE ICE EXTENT, ghiaccio nei laghi
+# Equivalente in acqua della neve.
+ 
+
 
