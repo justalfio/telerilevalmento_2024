@@ -58,6 +58,18 @@ WATER VARIABILI:
 # snow cover, quantità di estensione della neve in pianeta;
 # LAKE ICE EXTENT, ghiaccio nei laghi
 # Equivalente in acqua della neve.
+
+#importing data from COpernicus
+cambiare setdw da dove prendiamo il file
+soil<-rast("c_gls_SSM1km_202404210000_CEURO_S1CSAR_V1.2.1.nc")
+plot(soil)
+
+# cropping data
+ext <- c(25, 30, 55, 58) definite x min e max, y min e max, indica l'aggiunta dell'estensione che ci interessa
+soilcrop <- crop(soil, ext)
+plot(soilcrop)
+plot(soilcrop[[1]])
+
  
 
 
