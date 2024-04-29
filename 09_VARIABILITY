@@ -1,0 +1,45 @@
+# L'ipotesi di variazione spettrale, spazio spettrale rappresentato dagli assi. Più è ampia la nuvola di pixel in questo spazio, più è alta la capacità di riflettere dei pixel e di conseguenza della variabilità spettrale;
+# Noi abbiamno il valore di rifelttanza DI OGNI SINGOLO PIXEL. Noi potremmo vedere come la prima banda e la seconda riflettono. Piuttosto differente, maggiore variabilità. In un campo di grando la riflettanza è abbastanza simile e lineare, piuttosto omogenea.
+# se si ha una maggiore varaibilità in un ecosistema, tante specie si trovano a convivere tra di loro;
+# stessa misurazione può essere fatta per misurare la variabilità geomorfologica di un territorio; la variazione standard: tutti i dati, si prende una media e si fa una sottrazione di ogni singolo valore dalla media.
+# la deviazione standard è il 68% dei dati. Maggiore è la deviazione standard, maggiore sarà la varabilità.
+# SI può calcolare la variabilità di tutta l'immagine o semplicemente si va a creare una mappa di variabilità.
+# si inserisce una finestra 3x3 su un'immagine 5x5, calcolando per ogni pixel òa deviazione standard, focalizzandoci sul pixel centrale, ottenendo una mappa di variazione standard. 
+# NECESSARIO CHE LA FINESTRA SIA DI NNUMERI DISPARI.
+# focal() è la funzione usata, viridis il pacchetto che viene usato per sistemare le problematiche legate alla visualizzazione di colori.
+# measuring variability from satellite imageRy
+# richiamare i pacchetti terra e imageRy
+ im.list()
+# utilizziamo "sentinel.png" 
+im.import("sentinel.png")
+sent <-im.import("sentinel.png")
+im.plotRGB(sent, 1, 2, 3)
+# vegetazione sul rosso, i 3 livelli sono
+# NIR= band 1 vegetazione
+# red = band 2 
+# green = band 3 
+# lago nero perché assorbe tutta la radiazione infrarossa
+# facciamo calcoli di varabilità
+im.plotRGB(sent, 2, 3, 1)
+ # per facilitrare i calcolo, sappiamo che la deviazione standard è calcolata su un livello. Bisogna scegliere una variabile
+# forma di analisi mnultivariata, usata per compattare in un unico livello varie info
+# descrivere oggetti, usiamo il NIR come info
+nir <- sent [[1]] meglio assegnare la banda 1 a nir in modo da non dover richiamare sempre sent.
+cl <- colorRampPalette(c("black", "blue", "green", "yellow")) (100) 100 corrisponde all'intervallo per poter visualizzare i coplori in maniera netta o meno, 100 è ideale
+POSSIAMO TROVARE I COLOR SU INTERNET DIGITRANDO R COLOR PACKAGE PER SAPERE I CODICI
+plot(nir, col=cl)
+# funzione focal, usiamo moving window, uso della finestra mobile che abbiamo spiegato prima (3x3), si basa sul dato NIR, dobbiamo spiegare al sistema com'è costruita la matrice, o finestra, con la funzione matrix (un sistema bidimensionale di rappresentazione dei numeri)
+# stessi elementi disposti in maniera bidimensionale (righe, colonne)
+# usiamo 1/9 perché nella funzione originale specifica il range di pixel, tutti i pixel da 1 a 9, la disposizione in questo caso si han con 3 righe e 3 colonne;
+# specificare poi che tipo di funzione vogliamo calcolare con fun= e poi abbrevizione della funzione che vogliamo calcolare, mean, sd ecc...
+sd3 <- focal(nir, matrix(1/9, 3, 3), fun=sd), sd sta per standard variation
+max di variabilità pari a 12, partendo da un dato che varia da 0 a 256
+# poi plottare
+plot(sd3), poca variabilità visibile, cambiamo la color palette
+# installare pacchetto viridis
+library(viridis)
+
+# usiamo così il pacchetto viridis con una delle varie palette già predefinite
+viridisc <- colorRampPalette(viridis(7))(256)
+plot(sd3, col=viridisc), vengono esaltati i bordi come indice di variabilità
+
