@@ -1,0 +1,34 @@
+# DIMENSIONALITY: impossibile a volte scegliere la banda, come fare ad identificare una sola banda? Flatland, libro che descrive una società divise in due dimensioni, appare un giorno una sfera. 
+# se noi abbiamo delle variabili trasmesse bidimensionalmente, le possiamo racchiudere in una sola dimensione con un'analisi, la multivariata, analisi delle componenti principali
+# due variabili correlate tra loro, facciamo passare due nuovi assi PC1 e PC2.
+# se i dati non sono correlati linearmente, abbiamo la correspondence analysis e si usa un metodo "logaritmico" per poter riportare tutto su scala lineare e non tendente all'esponenziale.
+# im.pca che fa tutti i passaggi per compattare il set in una sola dimensione, analisi fatta e poi restituisce tutte le componenti;
+# nostro set originario con le due componenti, due bande, ognuna contiene il range di dati di misura al 50%, facciamo passare un nuovo asse che per definizione contiene gran parte del range,
+# il secondo asse è invece con range minore. Il primo asse PC1 ha un range molto più ampio del secondo, e invece di usare il sistema basato su due bande, usiamo il set di due assi (monodimensionale)
+
+library(imageRy)
+library(terra)
+library(viridis)
+
+# listing data
+im.list()
+"sentinel.dolomites.b2.tif"  immagine di oggi con le varie badne
+
+# importing data
+b2<-im.import("sentinel.dolomites.b2.tif") # blue
+b3<-im.import("sentinel.dolomites.b3.tif") # green 
+b4<-im.import("sentinel.dolomites.b4.tif") # red
+b8<-im.import("sentinel.dolomites.b8.tif") # nir
+# dopo andiamo a far elo stack per creare un'immagine satellitare
+
+sentdo<-c(b2, b3, b4, b8)
+
+im.plotRGB(sentdo, r=4, g=3, b=2), la parte della vegetazione è rossa perché il nostro quarto livello originale e in infrarosso e l'abbiamo montata nel rosso.
+# una volta che le bande sono nell'immagine satellitare, diventano elementi, 1,2,3,4, numerabili e intercambiabili.
+im.plotRGB(sentdo, r=3, g=4, b=2)
+
+pairs(sentdo) # non sempre due variabili sono casualmente relazionate, banda verde e banda blu molto correlato, blu e rosso, verde e rosso sono molto correalte tra loro.
+# con l'infrarosso la correlazione c'è, ma più bassa.
+# le 4 bande con una sola banda è il nostro obiettivo di progetto.
+
+#calcolo PCA
