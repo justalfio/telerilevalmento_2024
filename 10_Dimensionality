@@ -31,4 +31,40 @@ pairs(sentdo) # non sempre due variabili sono casualmente relazionate, banda ver
 # con l'infrarosso la correlazione c'è, ma più bassa.
 # le 4 bande con una sola banda è il nostro obiettivo di progetto.
 
-#calcolo PCA
+#calcolo PCA, funzione: funizoni im. sono gli inizi dei pacchetti imageRy
+pcimage<- im.pca(sentdo)
+Standard deviations (1, .., p=4):
+[1] 1332.15353  659.91773   35.09147
+[4]   26.91384 qeusti sono i valori che rappresentano il range PC1 (90%) di ogni componente principale. Per sapere la percentuale di variabilità, si copia la stringa 
+
+Rotation (n x k) = (4 x 4):
+                            PC1
+sentinel.dolomites.b2 0.4145117
+sentinel.dolomites.b3 0.4742897
+sentinel.dolomites.b4 0.6033025
+sentinel.dolomites.b8 0.4891374
+                             PC2
+sentinel.dolomites.b2  0.2532870
+sentinel.dolomites.b3  0.2100468
+sentinel.dolomites.b4  0.3664597
+sentinel.dolomites.b8 -0.8703065
+                              PC3
+sentinel.dolomites.b2 -0.53901910
+sentinel.dolomites.b3 -0.45808366
+sentinel.dolomites.b4  0.70620245
+sentinel.dolomites.b8  0.02993104
+                              PC4
+sentinel.dolomites.b2 -0.68810181
+sentinel.dolomites.b3  0.72186497
+sentinel.dolomites.b4 -0.05487729
+sentinel.dolomites.b8 -0.04914611
+
+tot<- sum(1332.15353,  659.91773,   35.09147,  26.91384)
+# dividiamo ogni numero con il totale 1332.15353*/tot e otteniamo la percentuale di ogni componente principale.
+i numeri seguiti da sentinel.dolomites e la banda originale troviamo dei numeri, ossia a quale valore la componente principale si relaziona meglio.
+# plottiamo PCA
+
+vir<- colorRampPalette(viridis(7)) (100)
+plot(pcimage, col=vir)
+plot(pcimage, col=viridis(100))
+PC3 è un mostro perché presenta solo 2% della variabilità, sistema quadridimensionale, ad un sistema più o meno monodimensionale
