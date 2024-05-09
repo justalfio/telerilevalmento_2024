@@ -1,1 +1,90 @@
 # farsi mandare appunti
+
+
+% come fare un testo con latex;
+% le funzioni vengono richiamate utilizzando il \nomefunzione e gli argomenti verranno passati con {};
+% i commenti vengono eseguiti attraverso il simbolo percentuale;
+% \documentclass{article} è la prima funzione utilizzata; successivamente c'è la funzione \usepackage{}, una funzione per aggiungere pacchetti aggiuntivi in latex;
+% \begin{} è una funzione generica che inizia un processo in base all'argomento passato tra le {}
+% \end{} termina il processo iniziato con la funzione \begin.
+% \maketitle{} crea il titolo del file; 
+% \section{} crea sezioni diverse del documento assegnandogli automaticamente un numero progressivo; scrivendo qualsiasi cosa dopo la funzione section (come un testo). 
+% Se si manda a capo nel codice, compilandolo si avrà un'indentazione con il testo successivo alla riga vuota. Per togliere l'indentazione bisogna utilizzare la funzione \noindent
+\documentclass[12pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{hyperref}
+
+\title{My first LaTeX doc}
+\author{Vincenzo Busiello}
+%\date{ }
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction} 
+\label{sec:intro} % nel caso in cui si sbagli il nome della sezione compariranno dei ?? nella porzione in cui richiamo la \ref{}
+E ho tutto dentro e poi mi accorgo che non ho parole
+Non c'è poesia solo malinconia e malumore
+E resto qui tra le mie mani e il resto del dolore
+E resto qui tra le mie mani e una contraddizione
+Me ne andrò controvento
+Sarò via in un momento
+Me ne andrò controvento
+Sarò via in un momento
+
+Ora vorrei spiazzare il tempo senza far rumore
+Tutto và via mi lascia qui a guardarmi frantumare
+Non c'è poesia nè voglia di aver timore
+La cera brucia adesso non mi servono parole
+E ho tutto dentro e poi mi accorgo che non ho parole
+Non c'è poesia solo malinconia e malumore
+E resto qui tra le mie mani e il resto del dolore
+E resto qui tra le mie mani e una contraddizione
+Me ne andrò controvento
+Sarò via in un momento
+Me ne andrò controvento
+Sarò via in un momento
+
+Ora vorrei spiazzare il tempo senza far rumore
+Tutto và via mi lascia qui a guardarmi frantumare
+Non c'è poesia nè voglia di aver timore
+La cera brucia adesso non mi servono parole
+E ho tutto dentro e poi mi accorgo che non ho parole
+Non c'è poesia solo malinconia e malumore
+E resto qui tra le mie mani e il resto del dolore
+E resto qui tra le mie mani e una contraddizione
+Me ne andrò controvento
+Sarò via in un momento
+Me ne andrò controvento
+Sarò via in un momento
+Ora vorrei spiazzare il tempo senza far rumore
+Tutto và via mi lascia qui a guardarmi frantumare
+Non c'è poesia nè voglia di aver timore
+La cera brucia adesso non mi servono parole
+
+\section{Methods}
+\subsection{Study Area}
+\subsection{Algorithms}
+The equation used was Equation\ref{eq:sum}: 
+\begin{equation}
+    T = \sum p_i
+    \label{eq:sum}
+\end{equation}
+
+In this thesis we made use of Equation \ref{eq:newton}:
+
+\begin{equation}
+    F=\sqrt[n]{G \frac{m_1 \times m_2}{d^2}}
+    \label{eq:newton}
+\end{equation}
+
+\section{Results}
+
+
+\section{Discussion}
+
+Our results are in line with previous paper, introduce in section \ref{sec:intro}.
+
+\end{document}
