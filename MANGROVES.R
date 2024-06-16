@@ -34,7 +34,7 @@ im.plotRGB(mng21, 2,4,3)
 
 # Scegliamo una palette di colori 
 # Scelgo (green4, seagreen1, sandybrown)
-leaf <- colorRampPalette(c("green4", "seagreen1", "sandybrown",)) (100)
+leaf <- colorRampPalette(c("sandybrown","green4", "seagreen1")) (100)
 
 # calcolo del DVI (difference vegetation index); utilizzo l'uguale perché è una operazione matematica
 # si prende la banda del NIR e si esegue una sottrazione di pixel con la banda del Rosso
@@ -44,26 +44,85 @@ leaf <- colorRampPalette(c("green4", "seagreen1", "sandybrown",)) (100)
 # sabbia o neve. I valori positivi bassi rappresentano arbusti e praterie (circa 0.2 a 0.4), mentre i valori alti indicano 
 # foreste pluviali temperate e tropicali (valori che si avvicinano a 1).
 
-# la scelta di banda 1 (banda del blu per sentinel 2) e banda 4 (NIR per sentinel 2) è dovuta al fatto che eliminando la banda del blu
-# permette di differenziare meglio ciò che non è vegetazione (urbanizzazione, acqua) e vegetazione (più chiara (annuale) più
+# la scelta di banda 3 (banda del rosso per sentinel 2) e banda 4 (NIR per sentinel 2) è dovuta al fatto sia che NDVI si calcola
+# sottraendo il NIR a red, sia che eliminando la banda del rosso permette di differenziare meglio ciò che non è vegetazione 
+# (urbanizzazione, acqua) e vegetazione (più chiara, annuale, più scura arborea.
 
-dvimng16 = mng16[[4]] - mng16[[1]] 
-dvimng21 = mng21[[4]] - mng21[[1]]
+dvimng16 = mng16[[4]] - mng16[[3]] 
+dvimng21 = mng21[[4]] - mng21[[3]]
 
 #dopo aver calcolato dvi, creaiamo un par inserendo i due plot con la colorRampPalette scelta per vedere le differenze
 par(mfrow=c(1,2))
 plot(dvimng16, col=leaf)
 plot(dvimng21, col=leaf)
 
-#Calcoliamo la Normalized Difference Vegetation Index NDVI che varia da 1 a -1
-#La usiamo perché è un indice normalizzato che ci fornsice valori standardizzati che possono
-#essere di più facile interpretazione e possono essere usati per confrontare immagini
-#di dimensioni diverse 
-
-#NDVI= (NIR-red)/(NIR+red)
-ndvi2016= dvimng16/mng16[[1]]+mng16[[4]]
-ndvi2021= dvimng21/mng21[[1]]+mng21[[4]]
-
-# per la visualizzazione dell'NDVI scelgo la colorRampPalette "viridis", adatta alla visualizzazione della variazione per i daltonici
+# per la visualizzazione del DVI scelgo anche la colorRampPalette "viridis", adatta alla visualizzazione della variazione 
+# per i daltonici
 # (richiamo viridis)
 library(viridis)
+plot(dvimng21, col=viridis(100))
+plot(dvimng16, col=viridis(100))
+
+#si osserva così con il blu scuro la componente non vegetazionale, giallo annuale e in turchese l'arborea
+
+
+# Calcoliamo la Normalized Difference Vegetation Index NDVI che varia da 1 a -1
+# La usiamo perché è un indice normalizzato che ci fornsice valori standardizzati che possono
+# essere di più facile interpretazione e possono essere usati per confrontare immagini
+# di dimensioni diverse 
+
+# NDVI= (NIR-red)/(NIR+red)
+ndvi2016= dvimng16/mng16[[3]]+mng16[[4]]
+ndvi2021= dvimng21/mng21[[3]]+mng21[[4]]
+
+# dopodiché plotto anche ora le due NDVI, dopo aver visionato i dati, e le confronto a livello visivo
+plot(ndvi2016, col=viridis(100))
+plot(ndvi2021, col=viridis(100))
+
+# passo alla classificazione
+# Classifichiamo con 2 cluster le immagini
+# 2016
+class16 <- im.classify(ndvi2016, num_clusters=2)
+class.names <- c("non vegetation", "mangroves")
+#Plottiamo dando un titolo all'immagine e un nome all classi
+plot(class16, main= "Classificazione 2016", type="classes", levels= class.names)
+
+# 2021
+class21 <- im.classify(ndvi2021, num_clusters=2)
+class.names <- c("non vegetation", "mangroves")
+plot(class21, main= "Classificazione 2021", type="classes", levels=class.names)
+
+
+# Calcoliamo la frequenza dei pixel presenti in una classe
+# e quella dei pixel presenti nell'altra
+# 2016
+freq16 <- freq(class16)
+freq16
+#Calcoliamo il totale dei pixel
+tot16 <- ncell (class16)
+tot16
+#Proporzione
+prop16 = freq16/tot16
+prop16
+
+perc16 = prop16*100
+perc16
+#PERCENTUALI
+# layer 1 (non vegetation)=37,99%
+# layer 2 (mangroves)) 62,01%
+
+# 2021
+freq21 <- freq(class21)
+freq21
+#Calcoliamo il totale dei pixel
+tot21 <- ncell (class21)
+tot21
+#Proporzione
+prop21 = freq21/tot21
+prop21
+
+perc21 = prop21*100
+perc21
+#PERCENTUALI
+# layer 1(non vegetation)= 39,22%
+# layer 2(mangroves)= 60,78%
