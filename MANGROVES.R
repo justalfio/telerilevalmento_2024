@@ -1,6 +1,5 @@
 library(terra) #per la funzione rast
 library(ggplot2) #per costruire grafici
-library(viridis) #per avere una colorRampoPalette adatta ai daltonici
 library(imageRy) #per la funzione im.classify(), im.pca() e im.plotRGB()
 library(patchwork) #per unire i grafici
 
@@ -34,8 +33,8 @@ im.plotRGB(mng16, 2,4,3)
 im.plotRGB(mng21, 2,4,3)
 
 # Scegliamo una palette di colori 
-# Scelgo (peru, tan1, green4)
-leaf <- colorRampPalette(c("pink1", "green4", "olivedrab1")) (100)
+# Scelgo (green4, seagreen1, sandybrown)
+leaf <- colorRampPalette(c("green4", "seagreen1", "sandybrown",)) (100)
 
 # calcolo del DVI (difference vegetation index); utilizzo l'uguale perché è una operazione matematica
 # si prende la banda del NIR e si esegue una sottrazione di pixel con la banda del Rosso
@@ -45,10 +44,14 @@ leaf <- colorRampPalette(c("pink1", "green4", "olivedrab1")) (100)
 # sabbia o neve. I valori positivi bassi rappresentano arbusti e praterie (circa 0.2 a 0.4), mentre i valori alti indicano 
 # foreste pluviali temperate e tropicali (valori che si avvicinano a 1).
 
-dvimng16 = mng16[[1]] - mng16[[4]] 
-dvimng21 = mng21[[1]] - mng21[[4]]
+# la scelta di banda 1 (banda del blu per sentinel 2) e banda 4 (NIR per sentinel 2) è dovuta al fatto che eliminando la banda del blu
+# permette di differenziare meglio ciò che non è vegetazione (urbanizzazione, acqua) e vegetazione (più chiara (annuale) più
 
-#dopo aver calcolato dvi, creaiamo due plot con la colorRampPalette scelta per vedere le differenze
+dvimng16 = mng16[[4]] - mng16[[1]] 
+dvimng21 = mng21[[4]] - mng21[[1]]
+
+#dopo aver calcolato dvi, creaiamo un par inserendo i due plot con la colorRampPalette scelta per vedere le differenze
+par(mfrow=c(1,2))
 plot(dvimng16, col=leaf)
 plot(dvimng21, col=leaf)
 
@@ -61,4 +64,6 @@ plot(dvimng21, col=leaf)
 ndvi2016= dvimng16/mng16[[1]]+mng16[[4]]
 ndvi2021= dvimng21/mng21[[1]]+mng21[[4]]
 
-# FARE LA CLASSIFICAZIONE!!
+# per la visualizzazione dell'NDVI scelgo la colorRampPalette "viridis", adatta alla visualizzazione della variazione per i daltonici
+# (richiamo viridis)
+library(viridis)
