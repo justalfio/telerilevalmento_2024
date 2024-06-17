@@ -157,10 +157,48 @@ tabout
 # Adesso creiamo i grafici utilizzando ggplot, aes sta per aesthetic, con questo creiamo uno scheletro
 # 2016
 # stat= identity indica il valore che abbiamo, fill=colore indica il colore che intendiamo usare
+
+ggplot(tabout, aes(x=class, y= y2016, color=class)) +  geom_bar(stat="identity", aes(fill= class), width= 0.7)+
 ylim(c(0,100)) +
-ggplot(tabout, aes(x=class, y= y2017, color=class)) + 
-geom_bar(stat="identity", aes(fill= class), width= 0.7)+ 
-ggtitle("Mongla's vegetation 2016") + xlab("Classi") + ylab("Valori percentuali")+
+ggtitle("Mongla's Mangroves 2016") + xlab("Classi") + ylab("Percentuale di copertura")+
 theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
+# 2021
+ggplot(tabout, aes(x=class, y= y2021, color=class)) +  geom_bar(stat="identity", aes(fill= class), width= 0.7)+
+ylim(c(0,100)) +
+ggtitle("Mongla's Mangroves 2021") + xlab("Classi") + ylab("Percentuale di copertura")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
+#Visualizziamo i due grafici insieme con patchwork
+p1 <- ggplot(tabout, aes(x=class, y= y2016, color=class)) +  geom_bar(stat="identity", aes(fill= class), width= 0.7)+
+ylim(c(0,100)) +
+ggtitle("Mongla's Mangroves 2016") + xlab("Classi") + ylab("Percentuale di copertura")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+p2 <- ggplot(tabout, aes(x=class, y= y2021, color=class)) +  geom_bar(stat="identity", aes(fill= class), width= 0.7)+
+ylim(c(0,100)) +
+ggtitle("Mongla's Mangroves 2021") + xlab("Classi") + ylab("Percentuale di copertura")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+p1 + p2
+
+dev.off
+
+# faccio la PCA per entrambi gli anni per valutare la banda più significativa a livello di variabilità
+pcamng16 <- im.pca(mng16)
+pcamng21 <- im.pca(mng21)
+# pc1 per definizione è quella con la più alta variabilità, dunque scelto quella per la funzione focal.
+# # FUNZIONE FOCAL = Tira fuori delle statistiche, dei valori focali da una variabile, quindi media, 
+# varianza, deviazione standard, ecc...
+
+# a questo punto, funzione focal per il calcolo della standard deviation
+sdmng16 <- focal(pcamng16[[1]], matrix(1/9, 3,3), fun=sd)
+sdmng21 <- focal(pcamng21[[1]], matrix(1/9, 3,3), fun=sd)
+
+#plottiamo le immagini con viridis per non disturbare i daltonici con i colori
+plot(sdmng16, col=viridis(100))
+plot(sdmng21, col=viridis(100))
+
+# Vediamo in questo modo la variabilità più alta nelle zone verde-verde chiaro e la deviazione standard 
+# nelle varie divisioni 3x3
+
 
 
