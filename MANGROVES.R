@@ -14,7 +14,9 @@ mng4 <- rast("mng4.tiff") #NIR
 
 mng16 <- c(mng1, mng2, mng3, mng4) #creo il primo stack dei 4 layer del 2016
 #inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò che è la foresta pluviale
-im.plotRGB(mng16, 2, 4, 3) #inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò che è la vegetazione delle mangrovie
+im.plotRGB(mng16, 2, 4, 3) 
+#inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò 
+#che è la vegetazione delle mangrovie
 
 
 #assegno ad ogni immagine una banda per il 2021
@@ -81,10 +83,11 @@ plot(ndvi2021, col=viridis(100))
 
 # passo alla classificazione
 # Classifichiamo con 2 cluster le immagini
+
 # 2016
 class16 <- im.classify(ndvi2016, num_clusters=2)
 class.names <- c("non vegetation", "mangroves")
-#Plottiamo dando un titolo all'immagine e un nome all classi
+#Plottiamo dando un titolo all'immagine e un nome alle classi
 plot(class16, main= "Classificazione 2016", type="classes", levels= class.names)
 
 # 2021
@@ -98,12 +101,18 @@ plot(class21, main= "Classificazione 2021", type="classes", levels=class.names)
 # 2016
 freq16 <- freq(class16)
 freq16
+# non vegetation= 593608; # mangroves= 968892
+
 #Calcoliamo il totale dei pixel
 tot16 <- ncell (class16)
 tot16
+# 1562500 
 #Proporzione
 prop16 = freq16/tot16
 prop16
+# layer    value     count
+#1 6.4e-07 6.40e-07 0.3799091
+#2 6.4e-07 1.28e-06 0.6200909
 
 perc16 = prop16*100
 perc16
@@ -114,15 +123,44 @@ perc16
 # 2021
 freq21 <- freq(class21)
 freq21
-#Calcoliamo il totale dei pixel
+# "non vegetation"= 612849; "mangroves"= 949651
+
+# Calcoliamo il totale dei pixel
 tot21 <- ncell (class21)
-tot21
-#Proporzione
+tot21 # lo stesso valore ottenuto precedentemente
+# Proporzione
 prop21 = freq21/tot21
 prop21
+#    layer    value     count
+# 1 6.4e-07 6.40e-07 0.3922234
+# 2 6.4e-07 1.28e-06 0.6077766
 
 perc21 = prop21*100
 perc21
-#PERCENTUALI
+# PERCENTUALI
 # layer 1(non vegetation)= 39,22%
 # layer 2(mangroves)= 60,78%
+
+# costruisco il dataset e creo i grafici
+# Per prima cosa andiamo a creare una tabella per confrontare 
+# la variazione delle frequenze
+class <- c("non vegetation", "mangroves") # la prima colonna rappresentata dai nomi presenti nella classificazione
+y2016 <- c(37.9, 62.1) # seconda colonna con percentuali 2016
+y2021 <- c(39.2, 60.8) # terza colonna con percentuali 2021
+
+tabout <- data.frame(class, y2016, y2021) # creiamo il data set con la funzione data.frame per visualizzare le 4 percentuali
+tabout
+#          class y2016 y2021
+#1 non vegetation  37.9  39.2
+#2      mangroves  62.1  60.8
+
+# Adesso creiamo i grafici utilizzando ggplot, aes sta per aesthetic, con questo creiamo uno scheletro
+# 2016
+# stat= identity indica il valore che abbiamo, fill=colore indica il colore che intendiamo usare
+ylim(c(0,100)) +
+ggplot(tabout, aes(x=class, y= y2017, color=class)) + 
+geom_bar(stat="identity", aes(fill= class), width= 0.7)+ 
+ggtitle("Mongla's vegetation 2016") + xlab("Classi") + ylab("Valori percentuali")+
+theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
+
+
