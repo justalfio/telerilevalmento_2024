@@ -185,7 +185,34 @@ dev.off
 # faccio la PCA per entrambi gli anni per valutare la banda più significativa a livello di variabilità
 pcamng16 <- im.pca(mng16)
 pcamng21 <- im.pca(mng21)
-# pc1 per definizione è quella con la più alta variabilità, dunque scelto quella per la funzione focal.
+# Calcoliamo le percentuali delle componenti principali
+# 2016
+pcamng16 <- im.pca(mng16)
+tot <-sum( 5542.8700, 1295.9294,  226.6068,  125.0946)
+# tot pc1= 77,1%
+5542.8700*100/tot
+# tot pc2= 18%
+1295.9294é100/tot
+# tot pc3= 3,1%
+226.6068*100/tot
+#tot pc4= 1,7%
+125.0946*100/tot
+
+#2017
+pcamng21 <- im.pca(mng21)
+tot <- sum(6132.5105, 1646.7272,  200.3031,  115.1301)
+
+# tot pc1= 75,8%
+6132.5105*100/tot
+# tot pc2= 20,3%
+1646.7272*100/tot
+# tot pc3= 2,5%
+200.3031*100/tot
+# tot pc4= 1,4%
+115.1301*100/tot
+
+
+# pc1 per definizione è quella più rappresentativa, dunque scelgo quella per la funzione focal.
 # # FUNZIONE FOCAL = Tira fuori delle statistiche, dei valori focali da una variabile, quindi media, 
 # varianza, deviazione standard, ecc...
 
@@ -193,12 +220,16 @@ pcamng21 <- im.pca(mng21)
 sdmng16 <- focal(pcamng16[[1]], matrix(1/9, 3,3), fun=sd)
 sdmng21 <- focal(pcamng21[[1]], matrix(1/9, 3,3), fun=sd)
 
-#plottiamo le immagini con viridis per non disturbare i daltonici con i colori
-plot(sdmng16, col=viridis(100))
-plot(sdmng21, col=viridis(100))
+#plottiamo le immagini con viridis per non disturbare i daltonici con i colori, creando uno stack
+sdstack <-c(sdmng16, sdmng21)
+plot(sdstack, col=viridisc)
+
 
 # Vediamo in questo modo la variabilità più alta nelle zone verde-verde chiaro e la deviazione standard 
 # nelle varie divisioni 3x3
+
+
+
 
 
 
