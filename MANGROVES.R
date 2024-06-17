@@ -225,11 +225,9 @@ sdstack <-c(sdmng16, sdmng21)
 plot(sdstack, col=viridisc)
 
 
-# Vediamo in questo modo la variabilità più alta nelle zone verde-verde chiaro e la deviazione standard 
-# nelle varie divisioni 3x3
-
-
-
+# In questo caso, il confronto tra le immagini nello stack ci mostra che un minimo di variabilità della zona considerata c'è,
+# di circa il 2% come mostrato dalle analisi delle componenti. Dunque non un valore molto elevato ma che ci permette comunque di
+# poter apprezzare la riduzione delle mangrovie e l'espansione dell'intervento antropico proveniente da Mongla.
 
 
 
