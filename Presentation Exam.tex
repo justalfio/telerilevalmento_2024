@@ -1,0 +1,304 @@
+\documentclass{beamer} % classe di documenti per poter creare le presentazioni che in questo linguaggio vengono definite come frame. 
+\usepackage{graphicx} % Package necessario per utilizzare immagini
+\usepackage{listings} % Pacchetto che può essere utilizzato per caricare degli algoritmi direttamente dagli script.
+\usetheme{CambridgeUS}
+\usecolortheme{orchid}
+
+\logo{\includegraphics[width=1cm]{logounibo.png}} 
+
+\title{Deterioration of Sundarban mangrove forest ecosystem}
+\author{Alfio Tomarchio}
+\date{19 Giugno 2024}
+
+\begin{document}
+
+\maketitle
+
+\AtBeginSection[]
+{
+\begin{frame}
+\frametitle{Outline}    
+    \tableofcontents[currentsection]
+\end{frame}
+}
+
+\section{Introduzione}
+
+        \begin{frame}{Le mangrovie Sundarbans}
+            \begin{itemize}
+                \item Le Sundarbans sono la più grande foresta di mangrovie del mondo, situate tra India e Bangladesh
+                \item Riduzione della loro estensione a causa dell'inquinamento, sfruttamento e fattori ecologici stocastici
+                \item Monitoraggio dell'ecosistema in Mongla
+\end{itemize}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{center}
+\caption{Novembre 2016}
+\bigskip
+  \includegraphics[width=0.7\textwidth]{mongla2016.jpeg}
+    \end{center}
+\end{column}
+\begin{column}{0.5\textwidth}  
+\begin{center}
+\caption{Novembre 2021}
+\bigskip
+\includegraphics[width=0.7\textwidth]{mongla2021.jpeg}
+\end{center}
+\end{column}
+\end{columns}
+
+  \end{frame} 
+
+
+  
+        \begin{frame}{Raccolta dati}
+Sentinel 2 - Copernicus Open Hub \includegraphics[width=\textwidth]{}
+\begin{wrapfigure}{r}{0.25\textwidth} %this figure will be at the right
+    \centering
+    \includegraphics[width=0.30\textwidth]{copernicus.png}
+\end{wrapfigure}
+\bigskip
+\begin{itemize}
+    \item Individuare l'area di ricerca
+    \item Scegliere una bassa copertura nuvolosa 
+    \item Scegliere le date di confronto
+    \item Selezionare True color come livello
+    \item Download immagine in formato tiff 16 bit con le 4 bande (2,3,4,8)
+\end{itemize}
+ \end{frame}
+
+        \begin{frame}{Pacchetti utilizzati}
+Per la realizzazione di questo progetto sono stati utilizzati questi pacchetti: 
+\bigskip
+\begin{itemize}
+    \item    \texttt{library(terra)} 
+    \item    \texttt{library(imageRy)} 
+    \item    \texttt{library(ggplot2)} 
+    \item    \texttt{library(viridis)}
+    \item    \texttt{library(patchwork)}
+    \end{itemize}
+        \end{frame}
+
+\section{Indici e funzioni}
+        \begin{frame}{DVI ED NDVI}
+    I seguenti indici sono stati usati per calcolare la variazione delle mangrovie in Mongla:
+    \begin{itemize} 
+    \item \textbf{Difference Vegetation Index}:\begin{equation}
+DVI={NIR-RED}
+    \end{equation}
+    \item \textbf{Normalized DIfference Vegetation Index:} \begin{equation}
+NDVI=\frac{NIR-RED}{NIR+RED}
+    \end{equation}
+\end{itemize}
+\bigskip
+\bigskip
+Confronto dati forniti dagli indici delle annate 2016 e 2021, concentrandosi sul mese di novembre data la minore copertura nuvolosa
+        \end{frame}
+        
+        \begin{frame}{Applicazioni packages e R}
+        Sono state usate le seguenti funzioni di R e dei pacchetti in esso installati:
+        \bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item    \texttt{setwd()} 
+    \item    \texttt{rast} 
+    \item    \texttt{concatenate} 
+    \item    \texttt{im.plotRGB}
+    \item    \texttt{par}
+    \item    \texttt{dev.off}
+    \item    \texttt{colorRampPalette}
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  
+ \begin{itemize}
+    \item    \texttt{plot}
+    \item    \texttt{im.classify}
+    \item    \texttt{freq}
+    \item    \texttt{R come calcolatrice}
+    \item    \texttt{data.frame}
+    \item    \texttt{ggplot}
+    \item    \texttt{im.pca}
+    \item    \texttt{focal}
+    \end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+        
+        \begin{frame}{PlotRGB con NIR}
+Effettuo un primo confronto dei due anni posizionando il NIR sul verde, in modo che la vegetazione sia risaltata con quest'ultimo colore:
+\begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{plotRGB 16 21.jpeg}
+        \caption{Plot dei due stack}
+    \end{figure}
+
+\end{frame}
+        
+
+
+\section{Risultati NDVI}
+
+        \begin{frame}{Risultati NDVI}
+Plot che mostra i risultati dell'indice NDVI, utilizzando la colorazione "viridis" dove il blu scuro indica ciò che non è vegetazione, mentre ciò che va a schiarirsi è rappresentata dalle mangrovie:
+\bigskip
+\begin{columns}
+    \begin{column}{0.6\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{NDVI20216.jpeg}
+        \caption{NDVI 2016}
+        \end{center}
+\end{column}
+\begin{column}{0.6\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{NDVI 2021.jpeg}
+\caption{NDVI 2021}
+\end{center}
+\end{column}
+\end{columns}
+     \end{frame}
+
+\section{Risultati classificazione}
+\begin{frame}{Risultati classificazione}
+Quantifichiamo il cambiamento con \texttt{im.classify}:
+\bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{im.classify2016.png}
+\end{figure}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{im.classify2021.png}
+\end{figure}
+\end{column}
+\end{columns}
+    
+\end{frame}
+            %\lstinputlisting[language=R]{} % si specifica il linguaggio di programmazione utilizzato all'interno dello script e successivamente i passa come argomento della funzione il nome dello script che dovrà essere caricato su overleaf tramite il tasto carica
+            \begin{frame}{Frequenza e totale dei pixel}
+            Calcolata la frequenza dei pixel per ogni classe e il totale dei pixel per ogni immagine
+ne otteniamo poi la percentuale osservando che:
+\bigskip
+\bigskip
+\bigskip
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\textbf{Novembre 2016:}
+\begin{itemize}
+    \item Non vegetation: 37,99\%
+    \item Mangroves: 62,01\%
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  
+\textbf{Novembre 2021:}
+ \begin{itemize}
+    \item Non vegetation: 39,22\%
+    \item Mangroves: 60,70\%
+    \end{itemize}
+
+            \end{column}
+            \end{columns}
+            \end{frame}
+
+            \begin{frame}{Grafici}
+            Visualizzazione patchwork dei due ggplot in base ai risultati della classificazione:
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\linewidth]{patcwhork dei due ggplot.jpeg}
+            \end{figure}
+                
+            \end{frame}
+
+\section{PCA E Deviazione standard}
+\begin{frame}{PCA 2016}
+Svolta l'analisi delle componenti principali e la PCA ci permette poi di poter scegliere la PC1 (più rappresentativa) per il calcolo della deviazione standard:
+    \begin{SCfigure}
+   \centering
+\includegraphics[width=1\textwidth]{PCA 2016.jpeg}
+ \caption{tot pc1= 77,1\%
+tot pc2= 18\%
+tot pc3= 3,1\%
+tot pc4= 1,7\%}
+    
+    \end{SCfigure}  
+     \end{frame}
+
+    \begin{frame}{PCA 2021}
+    Analisi PC1 della PCA 2021:
+    \begin{SCfigure}
+            \centering
+            \includegraphics[width=1\linewidth]{PCA 2021.jpeg}
+            \caption{tot pc1= 75,8\%
+tot pc2= 20,3\%
+tot pc3= 2,5\%
+tot pc4= 1,4\%}
+            
+    \end{SCfigure}
+        
+    \end{frame}
+
+    \begin{frame}{Moving window}
+    Con la tecnica della moving window, in particolare una finestra 3x3 pixel, calcoliamo la deviazione standard sulla PC1:
+     \bigskip
+     \begin{columns}
+     \begin{column}{0.6\textwidth}
+\begin{center}
+    \includegraphics[width=\textwidth]{Deviazione standard 2016.jpeg}
+    \caption{2016}
+\end{center}
+\end{column}
+\begin{column}{0.6\textwidth}  
+    \begin{center}
+     \includegraphics[width=\textwidth]{deviazione standard 2021.jpeg}
+     \caption{2021}
+     \end{center}
+\end{column}
+\end{columns}
+ \end{frame}
+
+                
+\section{Conclusioni}
+
+        \begin{frame}{Conclusioni}
+            \begin{itemize}
+                \item 
+                Durante la sua storia, la foresta di Sundarbans è sempre stata soggetta a gestione e sfruttamento antropico;
+                \pause \item 
+                La combinazione di inquinamento, sfruttamento agricolo e rischi ciclonici (dovuti al cambiamento climatico) hanno costantemente reso problematica la conservazione di tale ecosistema;
+                \pause \item
+                L'obiettivo del progetto è stato quello di evidenziare  la variazione nella copertura delle mangrovie in prossimità di centri urbani, Mongla in questo caso;  
+                \pause \item Il risultato ottenuto dallo studio in Mongla ha rispecchiato l'andamento costante dal 2016 al 2021 della foresta di Sundarbans, ossia una riduzione annuale dell'estensione delle mangrovie dello 0,4\% e di 7.7 \mathbf{km^2}.
+             
+        
+            \end{itemize}
+            
+     \end{frame}
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth, height=\paperwidth, keepaspectratio]{Sundarban-National-Park.jpg}}
+
+\begin{frame} 
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+   \bigskip
+\textcolor{white}{GRAZIE PER L'ATTENZIONE!}
+   \centering
+   \textcolor{white}{\url{https://github.com/justalfio}}
+      \centering
+
+
+\end{frame}
+
+\end{document}
