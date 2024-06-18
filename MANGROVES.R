@@ -6,7 +6,7 @@ library(patchwork) #per unire i grafici
 #cambio directory
 setwd("C:/Users/Utente/Desktop/TELERILEVAMENTO/mangroves 1")
 
-# ad ogni banda noi assegneremo un'immagine
+# ad ogni banda noi assegneremo un'immagineA
 mng1 <- rast("mng3.tiff") #blue
 mng2 <- rast("mng2.tiff") #green 
 mng3 <- rast("mng1.tiff") #red
@@ -184,7 +184,15 @@ p1 + p2
 
 dev.off
 
-# faccio la PCA per entrambi gli anni per valutare la banda più significativa a livello di variabilità
+# adesso digito la funzione pairs per i due stack di immagini in modo da osservare la correlazione tra bande:
+pairs(mng16)
+pairs(mng21)
+
+# dal pairs vedo che la correlazione è più o meno simile tra le tre bande e va ad abbassarsi nel NIR
+
+# faccio la PCA per entrambi gli anni, con im.pca calcoliamo i valori delle componenti principali delle 4 bande. im.pca nella visualizzazione delle immagini 
+# da sempre le prime 3 del plot, nel nostro caso PC4 la esclude.
+
 pcamng16 <- im.pca(mng16)
 pcamng21 <- im.pca(mng21)
 # Calcoliamo le percentuali delle componenti principali
@@ -215,7 +223,7 @@ tot <- sum(6132.5105, 1646.7272,  200.3031,  115.1301)
 
 
 # pc1 per definizione è quella più rappresentativa, dunque scelgo quella per la funzione focal.
-# # FUNZIONE FOCAL = Tira fuori delle statistiche, dei valori focali da una variabile, quindi media, 
+# FUNZIONE FOCAL = Tira fuori delle statistiche, dei valori focali da una variabile, quindi media, 
 # varianza, deviazione standard, ecc...
 
 # a questo punto, funzione focal per il calcolo della standard deviation
