@@ -33,8 +33,8 @@ par(mfrow=c(1,2)) #creazione di un par per il confronto delle due immagini.
 
 # ri-plottiamo i due stack di layer in modo da poter osservare la differenza ad occhio nudo degli effetti antropici 
 # sulle mangrovie, mettendo il NIR sul verde.
-im.plotRGB(mng16, 2,4,3)
-im.plotRGB(mng21, 2,4,3)
+im.plotRGB(mng16, 1,2,4)
+im.plotRGB(mng21, 1,2,4)
 
 # Scegliamo una palette di colori 
 # Scelgo (green4, seagreen1, sandybrown)
