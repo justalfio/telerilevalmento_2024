@@ -7,9 +7,9 @@ library(patchwork) #per unire i grafici
 setwd("C:/Users/Utente/Desktop/TELERILEVAMENTO/mangroves 1")
 
 # ad ogni banda noi assegneremo un'immagine
-mng1 <- rast("mng1.tiff") #blue
+mng1 <- rast("mng3.tiff") #blue
 mng2 <- rast("mng2.tiff") #green 
-mng3 <- rast("mng3.tiff") #red
+mng3 <- rast("mng1.tiff") #red
 mng4 <- rast("mng4.tiff") #NIR
 
 mng16 <- c(mng1, mng2, mng3, mng4) #creo il primo stack dei 4 layer del 2016
@@ -20,9 +20,9 @@ im.plotRGB(mng16, 2, 4, 3)
 
 
 #assegno ad ogni immagine una banda per il 2021
-mng5 <- rast("mng5.tiff") #blue
+mng5 <- rast("mng7.tiff") #blue
 mng6 <- rast("mng6.tiff") #green
-mng7 <- rast("mng7.tiff") #red
+mng7 <- rast("mng5.tiff") #red
 mng8 <- rast("mng8.tiff") #NIR
 
 mng21 <- c(mng5, mng6, mng7, mng8) #creazione secondo stack con i 4 layer del 2021
@@ -30,7 +30,8 @@ mng21 <- c(mng5, mng6, mng7, mng8) #creazione secondo stack con i 4 layer del 20
 # funzione par, unire le immagini
 par(mfrow=c(1,2)) #creazione di un par per il confronto delle due immagini. 
 
-# ri-plottiamo i due stack di layer in modo da poter osservare la differenza ad occhio nudo degli effetti antropici sulle mangrovie
+# ri-plottiamo i due stack di layer in modo da poter osservare la differenza ad occhio nudo degli effetti antropici 
+# sulle mangrovie, mettendo il NIR sul verde.
 im.plotRGB(mng16, 2,4,3)
 im.plotRGB(mng21, 2,4,3)
 
@@ -62,8 +63,9 @@ plot(dvimng21, col=leaf)
 # per i daltonici
 # (richiamo viridis)
 library(viridis)
-plot(dvimng21, col=viridis(100))
-plot(dvimng16, col=viridis(100))
+viridisc <- colorRampPalette(viridis(7))(100)
+plot(dvimng21, col=viridisc)
+plot(dvimng16, col=viridisc)
 
 #si osserva così con il blu scuro la componente non vegetazionale, giallo annuale e in turchese l'arborea
 
@@ -78,8 +80,8 @@ ndvi2016= dvimng16/mng16[[3]]+mng16[[4]]
 ndvi2021= dvimng21/mng21[[3]]+mng21[[4]]
 
 # dopodiché plotto anche ora le due NDVI, dopo aver visionato i dati, e le confronto a livello visivo
-plot(ndvi2016, col=viridis(100))
-plot(ndvi2021, col=viridis(100))
+plot(ndvi2016, col=viridisc)
+plot(ndvi2021, col=viridisc)
 
 # passo alla classificazione
 # Classifichiamo con 2 cluster le immagini
