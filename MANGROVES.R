@@ -12,11 +12,12 @@ mng2 <- rast("mng2.tiff") #green
 mng3 <- rast("mng1.tiff") #red
 mng4 <- rast("mng4.tiff") #NIR
 
-mng16 <- c(mng1, mng2, mng3, mng4) #creo il primo stack dei 4 layer del 2016
-#inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò che è la foresta pluviale
-im.plotRGB(mng16, 2, 4, 3) 
-#inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò 
-#che è la vegetazione delle mangrovie
+mng16 <- c(mng1, mng2, mng3, mng4) 
+#creo il primo stack dei 4 layer del 2016
+im.plotRGB(mng16, 1, 2, 4) 
+# inserisco la banda del NIR al posto della banda del blu così da ottenere in blu ciò 
+# che è la vegetazione delle mangrovie e in giallo ottengo ciò che riflette poco, esaltando dunque la variazione tra i due anni
+# in giallo che è il colore che più colpisce la retina.
 
 
 #assegno ad ogni immagine una banda per il 2021
