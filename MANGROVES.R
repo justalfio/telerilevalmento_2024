@@ -14,7 +14,7 @@ mng4 <- rast("mng4.tiff") #NIR
 
 mng16 <- c(mng1, mng2, mng3, mng4) #creo il primo stack dei 4 layer del 2016
 #inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò che è la foresta pluviale
-im.plotRGB(mng16, 2, 4, 3) 
+im.plotRGB(mng16, 1, 4, 3) 
 #inserisco la banda del NIR al posto della banda del Verde così da ottenere in verde ciò 
 #che è la vegetazione delle mangrovie
 
